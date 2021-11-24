@@ -15,6 +15,5 @@ int main() {
     for(auto &&library : libraries) {
         auto square = library->getSquareVector(3);
     }
-    while(1);
     return 0;
 }
