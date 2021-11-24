@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 #include "Vector.h"
-#include "TwoDimensionalVector.h"
+#include "Vector2D.h"
 #include "SquareLibrary.h"
 
-struct TwoDimensionalSquareLibrary: SquareLibrary {
+struct SquareLibrary2D: SquareLibrary {
 protected:
     std::shared_ptr<Vector> makeSquareVector(size_t param) override {
-        return std::make_shared<TwoDimensionalVector>(param, param);
+        return std::make_shared<Vector2D>(param, param);
     }
 };
