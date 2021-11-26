@@ -1,37 +1,18 @@
 #pragma once
 #include <cstddef>
-#include <map>
-#include <string>
-#include <functional>
-#include <memory>
+#include "VectorFactories.h"
 
 struct Vector {
 public:
     Vector(size_t size): _size(size) {}
     virtual ~Vector() = default;
-    virtual const char *info() const = 0;
 
-    // TODO non-copyable
-    struct VectorFactories {
-        using FunctionalFactory = std::function<std::shared_ptr<Vector>()>;
-        using Container = std::map<std::string, FunctionalFactory>;
-        VectorFactories() = default;
-        VectorFactories(std::initializer_list<Container::value_type> factories)
-            : _container(std::move(factories)) {}
-        void add(const std::string &type, FunctionalFactory factory) {
-            _container[type] = std::move(factory);
-        }
-        std::shared_ptr<Vector> make(const std::string &type) {
-            auto &function = _container[type];
-            if(!function) return nullptr;
-            return function();
-        }
-    private:
-        Container _container;
-    };
+    virtual const char *info() const = 0;
 
     using Factories = VectorFactories;
     static Factories& getFactories() {
+        // 为了方便带入默认的配置，使用初始化列表
+        // 但是不太推荐在这里引入具体实现类，仅用nullptr做示例
         static Factories factories {
             {"null", nullptr},
             {"", nullptr}
