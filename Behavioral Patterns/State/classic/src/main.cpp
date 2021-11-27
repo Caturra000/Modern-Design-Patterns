@@ -1,6 +1,7 @@
 #include <vector>
 #include <functional>
 #include <iostream>
+#include <sstream>
 #include <tuple>
 #include <random>
 #include <algorithm>
@@ -54,14 +55,19 @@ int main() {
     auto randomFactors = makeRandomFactors(stateMachine.size(), 10, 20);
     auto actions = makeActions(std::move(stateMachine), std::move(randomFactors));
     const char *current = "NEW";
+    std::stringstream logger;
+    logger << "[logger] " << current;
     for(auto &&action : actions) {
         auto &realAction = std::get<1>(action);
         const char *next = std::get<0>(action);
         if(realAction()) {
             std::cout << "[OK]  " << current << "->" << next << std::endl;
             current = next;
+            logger << "->" << current;
         } else {
             std::cout << "[ERR] " << current << "->" << next << std::endl;
         }
     }
+    std::cout << "======================\n"
+              << logger.str() << std::endl;
 }
