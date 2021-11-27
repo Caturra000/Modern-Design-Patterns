@@ -11,10 +11,6 @@ struct TracedTaskState;
 struct StoppedTaskState;
 struct DeadTaskState;
 
-///////////////////////
-// 接口
-///////////////////////
-
 struct NewTaskState: TaskState {
     // fork()
     bool setReady(TaskStruct *process) const override;
@@ -60,10 +56,3 @@ struct StoppedTaskState: TaskState {
 // 人被杀，就会死
 //                 by Emiya Shirou
 struct DeadTaskState: TaskState {};
-
-
-///////////////////////
-// 实现
-///////////////////////
-
-

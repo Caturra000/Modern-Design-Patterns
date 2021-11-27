@@ -2,9 +2,8 @@
 #include "TaskStruct.h"
 #include "TaskStates.h"
 
-TaskStruct::TaskStruct():
-    _state(std::make_shared<NewTaskState>()) {}
-
+TaskStruct::TaskStruct()
+    : _state(std::make_shared<NewTaskState>()) {}
 
 bool TaskStruct::setNew() { return _state->setNew(this); }
 bool TaskStruct::setReady() { return _state->setReady(this); }
