@@ -7,8 +7,10 @@
 #include <algorithm>
 #include "TaskStruct.h"
 
+using Action = std::tuple<const char*, std::function<bool()>>;
+
 auto makeStateMachineFor(TaskStruct &process) {
-    std::vector<std::tuple<const char*, std::function<bool()>>> machine {
+    std::vector<Action> machine {
         std::make_tuple("NEW",           [&] { return process.setNew(); }),
         std::make_tuple("READY",         [&] { return process.setReady(); }),
         std::make_tuple("RUNNING",       [&] { return process.setRunning(); }),
@@ -30,8 +32,8 @@ auto makeRandomFactors(size_t size, size_t begin, size_t end) {
     return randomFactors;
 }
 
-auto makeActions(std::vector<std::tuple<const char*, std::function<bool()>>> machine,
-                 std::vector<size_t> factors) {
+auto makeActions(const std::vector<Action> &machine,
+                 const std::vector<size_t> &factors) {
     // actions with info (const char*)
     std::vector<std::tuple<const char*, std::function<bool()>>> actions;
     for(auto iter = factors.cbegin(); iter != factors.cend(); iter++) {
@@ -53,7 +55,7 @@ int main() {
     TaskStruct process;
     auto stateMachine = makeStateMachineFor(process);
     auto randomFactors = makeRandomFactors(stateMachine.size(), 10, 20);
-    auto actions = makeActions(std::move(stateMachine), std::move(randomFactors));
+    auto actions = makeActions(stateMachine, randomFactors);
     const char *current = "NEW";
     std::stringstream logger;
     logger << "[logger] " << current;
