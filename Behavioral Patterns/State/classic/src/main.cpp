@@ -11,13 +11,13 @@ using Action = std::tuple<const char*, std::function<bool()>>;
 
 auto makeStateMachineFor(TaskStruct &process) {
     std::vector<Action> machine {
-        std::make_tuple("NEW",           [&] { return process.setNew(); }),
-        std::make_tuple("READY",         [&] { return process.setReady(); }),
-        std::make_tuple("RUNNING",       [&] { return process.setRunning(); }),
-        std::make_tuple("INTERRUPTIBLE", [&] { return process.setInterruptible(); }),
-        std::make_tuple("TRACED",        [&] { return process.setTraced(); }),
-        std::make_tuple("STOPPED",       [&] { return process.setStopped(); }),
-        std::make_tuple("DEAD",          [&] { return process.setDead(); })
+        {"NEW",           [&] { return process.setNew(); }},
+        {"READY",         [&] { return process.setReady(); }},
+        {"RUNNING",       [&] { return process.setRunning(); }},
+        {"INTERRUPTIBLE", [&] { return process.setInterruptible(); }},
+        {"TRACED",        [&] { return process.setTraced(); }},
+        {"STOPPED",       [&] { return process.setStopped(); }},
+        {"DEAD",          [&] { return process.setDead(); }}
     };
     return machine;
 }
