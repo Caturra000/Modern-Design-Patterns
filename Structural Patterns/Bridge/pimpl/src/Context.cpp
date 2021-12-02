@@ -7,6 +7,7 @@
 // 但是考虑到ContextImpl只会在Context实现中用到
 // 因此直接把声明也写在实现里
 // 这样可以进一步保证：.h就是接口，.cpp就是实现，而不会有impl.h这种意义不明的文件存在
+// 并且针对不同平台，可通过ifdef从而include不同的impl文件
 #include "ContextImpl.cpp"
 
 Context::Context(const char *server)

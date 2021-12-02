@@ -13,18 +13,17 @@ struct ContextImpl {
 // 本来应该是context的private部分
 // 现在全部转移到impl类上
 private:
-
     void add(const std::string &path);
     void del(const std::string &path);
-    void failed();
+    void fail();
 };
 
 void ContextImpl::call(Context *context, const std::string &request) {
     using Callback = std::function<void(ContextImpl*, const std::string&)>;
     using Router = std::map<std::string, Callback>;
     static Router router {
-        {"add",    &ContextImpl::add },
-        {"delete", &ContextImpl::del }
+        {"add",    &ContextImpl::add},
+        {"delete", &ContextImpl::del}
     };
 
     std::cout << context->server << " received request: " << request << std::endl;
@@ -32,7 +31,7 @@ void ContextImpl::call(Context *context, const std::string &request) {
     auto action = request.substr(0, pivot);
     auto query = router.find(action);
     if(query == router.end()) {
-        failed();
+        fail();
     } else {
         auto &functor = query->second;
         functor(this, request.substr(pivot + 1));
@@ -47,6 +46,6 @@ void ContextImpl::del(const std::string &path) {
     std::cout << path << " deleted." << std::endl;
 }
 
-void ContextImpl::failed() {
+void ContextImpl::fail() {
     std::cout << "failed." << std::endl;
 }
