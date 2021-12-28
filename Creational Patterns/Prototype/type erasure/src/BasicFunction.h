@@ -45,5 +45,12 @@ struct Function<Ret(Args...)> {
         return (*_functor)(std::forward<Args>(args)...);
     }
 
+    // 为什么不用Functor _functor，而要用指针形式？
+    // 至少我们需要多态的支持
+    // 但正如前面所说的，不知道具体的类型，就无法真正地copy
+    //
+    // 那么，改用std::shared_ptr通过引用计数来代替copy行为可不可以？
+    // 就行为而言，引入引用计数确实能表面上替换掉copy（起码能填上被delete的两个函数）
+    // 但是这样的话FunctorImpl里面的_callable就处于共享的状态。这对于仿函数来说，不一定是期望的做法
     Functor *_functor;
 };
